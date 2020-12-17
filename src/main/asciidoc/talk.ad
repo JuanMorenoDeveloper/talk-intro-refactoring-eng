@@ -642,6 +642,10 @@ When you use the decorator pattern, a new behavior can be transparently added to
 
 == Yes
 
+== !
+
+Catalog of refactorings: https://refactoring.com/catalog/
+
 == Conclusions
 
 * Working with legacy code is difficult
