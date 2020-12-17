@@ -57,7 +57,7 @@ Users like it when we add features (as long as it is what they wanted), but if w
 <section id="_the_algorithm_for_changing_legacy_code"><h2>The algorithm for changing legacy code</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify points of change.</p></li><li><p>Find test points.</p></li><li><p>Break dependencies.</p></li><li><p>Write tests.</p></li><li><p>Make changes and refactor.</p></li></ol></div></section>
 <section id="_tools"><h2>Tools</h2><div class="ulist"><ul><li><p>IDEs</p></li><li><p>Unit Test Frameworks</p></li></ul></div></section>
 <section id="_techniques"><h2>Techniques</h2></section>
-<section id="_i_dont_have_much_time_and_i_need_to_change_the_code"><h2>I don&#8217;t have much time and I need to change the code</h2><aside class="notes"><div class="ulist"><ul><li><p>It happens somewhere every day *
+<section id="_i_dont_have_much_time_and_i_need_to_change_the_code"><h2>I don&#8217;t have much time, and I need to change the code</h2><aside class="notes"><div class="ulist"><ul><li><p>It happens somewhere every day *
 Your boss walks in and says, "Customers want a new feature. Can we do it today?</p></li></ul></div>
 <div class="paragraph"><p>"I do not know."</p></div>
 <div class="paragraph"><p>You look around you. Is there testing in place? No.</p></div>
@@ -91,7 +91,7 @@ The code is our house, and we have to live in it.</p></div></aside></section>
   }
   //...
 }</code></pre></section>
-<section id="_but_we_fall_back_into_the_legacy_code_loop_lets_now_try_the_sprout_method"><h2>But we fall back into the legacy code loop. Let&#8217;s now try the Sprout method.</h2></section>
+<section id="_but_we_fall_back_into_the_legacy_code_loop_lets_now_try_the_sprout_method"><h2>But&#8230;&#8203; we fall back into the legacy code loop. Let&#8217;s now try the Sprout method.</h2></section>
 <section id="_extracting_logic_to_the_method"><h2>Extracting logic to the method</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class TransactionGate {
 //...
   List uniqueEntries(List entries) {
@@ -119,7 +119,7 @@ The code is our house, and we have to live in it.</p></div></aside></section>
 //...
 }</code></pre></section>
 <section id="_implementing_the_sprout_method"><h2>Implementing the sprout method</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify</p></li><li><p>Add the reference in the code</p></li><li><p>Inputs and outputs as arguments</p></li><li><p>Identify return values</p></li><li><p>Implementation of the method via TDD</p></li><li><p>Delete comment and enable the call.</p></li></ol></div>
-<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)</p></li><li><p>Determine what local variables you need from the source method and make them arguments for the call.</p></li><li><p>Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.</p></li><li><p>Develop the sprout method of using TDD.</p></li><li><p>Uncomment the source method to enable the call.</p></li></ol></div></aside></section>
+<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method, so you can get an idea of what the method call will look like in context.)</p></li><li><p>Determine what local variables you need from the source method and make them arguments for the call.</p></li><li><p>Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.</p></li><li><p>Develop the sprout method of using TDD.</p></li><li><p>Uncomment the source method to enable the call.</p></li></ol></div></aside></section>
 <section id="_advantages_of_the_sprout_method"><h2>Advantages of the sprout method</h2><div class="ulist"><ul><li><p>Clear separation between the old code and the new one.</p></li><li><p>The affected variables can be identified.</p></li><li><p>The new method includes tests.</p></li></ul></div></section>
 <section id="_disadvantages_of_the_sprout_method"><h2>Disadvantages of the sprout method</h2><div class="ulist"><ul><li><p>You can leave the original method in a weird state (invocations to external functions).</p></li><li><p>You can leave the code in limbo (The new method may not be associated with the responsibility of the original code)</p></li></ul></div></section>
 <section id="_sprout_class"><h2>Sprout class</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">std::string QuarterlyReportGenerator::generate() {
@@ -229,7 +229,7 @@ class QuarterlyReportGenerator : public HTMLGenerator {
         Return archivofiltrado
     End Function
 End Class</code></pre></section>
-<section id="_and_the_test"><h2>And, the test</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Imports NUnit.Framework
+<section id="_and_the_test"><h2>And the test</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Imports NUnit.Framework
 
 &lt;TestFixture()&gt;
 Public Class ManagerAuxiliarUnitTest

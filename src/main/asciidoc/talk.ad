@@ -159,7 +159,7 @@ When you break dependencies in legacy code, you often have to suspend your sense
 
 == Techniques
 
-== I don't have much time and I need to change the code
+== I don't have much time, and I need to change the code
 
 [NOTE.speaker]
 ====
@@ -216,7 +216,7 @@ public class TransactionGate {
 }
 ```
 
-== But we fall back into the legacy code loop. Let's now try the Sprout method.
+== But... we fall back into the legacy code loop. Let's now try the Sprout method.
 
 == Extracting logic to the method
 ```java
@@ -264,7 +264,7 @@ public class TransactionGate{
 [NOTE.speaker]
 ====
 1. Identify where you need to change your code.
-2. If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)
+2. If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method, so you can get an idea of what the method call will look like in context.)
 3. Determine what local variables you need from the source method and make them arguments for the call.
 4. Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.
 5. Develop the sprout method of using TDD.
@@ -435,7 +435,7 @@ Public Class ManagerAuxiliar
 End Class
 ```
 
-== And, the test
+== And the test
 
 ```vb
 Imports NUnit.Framework
