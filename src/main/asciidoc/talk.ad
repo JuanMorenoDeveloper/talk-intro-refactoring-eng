@@ -181,7 +181,6 @@ The code is our house, and we have to live in it.
 == Sprout method
 
 ```java
-//Código original
 public class TransactionGate {
   public void postEntries(List entries) {
     for (Iterator it = entries.iterator(); it.hasNext(); ) {
