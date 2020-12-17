@@ -36,7 +36,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );</script><!--[if 
 <section data-background-image="images/good-intentions2.jpg" data-background-size="auto"></section>
 <section id="_legacy_code"><h2>Legacy code</h2></section>
 <section data-background-image="images/legacy-code.jpeg" data-background-size="auto"></section>
-<section id="_qué_es_código_legacy"><h2>¿Qué es código legacy? <span class="icon"><i class="fa fa-lightbulb"></i></span></h2><div class="ulist"><ul><li><p>"Others" code?</p></li><li><p>Code difficult to understand?</p></li><li><p>Difficult code to maintain?</p></li><li><p>&#8230;&#8203;</p></li></ul></div></section>
+<section id="_what_is_legacy_code"><h2>What is legacy code? <span class="icon"><i class="fa fa-lightbulb"></i></span></h2><div class="ulist"><ul><li><p>"Others" code?</p></li><li><p>Code difficult to understand?</p></li><li><p>Difficult code to maintain?</p></li><li><p>&#8230;&#8203;</p></li></ul></div></section>
 <section><div class="quoteblock"><blockquote><div class="paragraph"><p>Legacy code is code without tests.</p></div></blockquote></div>
 <div class="quoteblock"><blockquote><div class="paragraph"><p>(2004) M. Feather</p></div></blockquote></div>
 <aside class="notes"><div class="paragraph"><p>Code without testing is bad code. It doesn&#8217;t matter how well written it is; no matter how pretty it is either object-oriented or well encapsulated. With testing, we can change the behavior of our code quickly and verifiably. Without them, we don&#8217;t know if our code is getting better or worse.</p></div></aside></section>
@@ -120,89 +120,10 @@ public class TransactionGate {
 //...
 }</code></pre></section>
 <section id="_implementing_the_sprout_method"><h2>Implementing the sprout method</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify</p></li><li><p>Add the reference in the code</p></li><li><p>Inputs and outputs as arguments</p></li><li><p>Identify return values</p></li><li><p>Implementation of the method via TDD</p></li><li><p>Delete comment and enable the call.</p></li></ol></div>
-<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)</p></li><li><p>Determine what local variables you need from the source method and make them arguments for the call.</p></li><li><p>Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.</p></li><li><p>Develop the sprout method of using TDD.</p></li><li><p>Uncomment the source method to enable the call.</p></li></ol></div></aside>
-<div class="paragraph"><p>▲
-auto_awesome
-Traducir del: inglés
-5000 / 5000
-Resultados de traducción
-and we have to live in it.</p></div>
-<div class="exampleblock"><div class="content"><div class="paragraph"><p>== Sprout method</p></div>
-<div class="paragraph"><p>java
-public class TransactionGate {
-public void postEntries (List entries) {
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-entry.postDate ();
-}
-transactionBundle.getListManager (). add (entries);
-}
-}
-`` ''</p></div>
-<div class="paragraph"><p>== Add feature</p></div>
-<div class="paragraph"><p>Verify new entries are not previously in <code>transactionBundle</code></p></div>
-<div class="paragraph"><p>== Can be implemented "easily" with</p></div>
-<div class="paragraph"><p>java
-public class TransactionGate {
-public void postEntries (List entries) {
-List entriesToAdd = new LinkedList ();
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-if (! transactionBundle.getListManager (). hasEntry (entry) {
-entry.postDate ();
-entriesToAdd.add (entry);
-}
-}
-transactionBundle.getListManager (). add (entriesToAdd);
-}
-}
-`` ''</p></div>
-<div class="paragraph"><p>== But we fall back into the legacy code loop. Let&#8217;s now try the Sprout method.</p></div>
-<div class="paragraph"><p>== Extracting logic to the method
-java
-public class TransactionGate {
-List uniqueEntries (List entries) {
-List result = new ArrayList ();
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-if (! transactionBundle.getListManager (). hasEntry (entry) {
-result.add (entry);
-}
-}
-return result;
-}
-}
-`` ''</p></div>
-<div class="paragraph"><p>== Built-in functionality</p></div>
-<div class="paragraph"><p>java
-public class TransactionGate {
-public void postEntries (List entries) {
-List entriesToAdd = uniqueEntries (entries);
-for (Iterator it = entriesToAdd.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-entry.postDate ();
-}
-transactionBundle.getListManager (). add (entriesToAdd);
-}
-}
-`` ''</p></div>
-<div class="paragraph"><p>== Implementing the sprout method
-1. Identify
-2. Add the reference in the code
-3. Inputs and outputs as arguments
-4. Identify return values
-5. Implementation of the method via TDD
-6. Delete comment and enable the call.</p></div></div></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)</p></li><li><p>Determine what local variables you need from the source method and make them arguments for the call.</p></li><li><p>Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.</p></li><li><p>Develop the sprout method of using TDD.</p></li><li><p>Uncomment the source method to enable the call.</p></li></ol></div>
-<div class="exampleblock"><div class="content"><div class="paragraph"><p>== Advantages of the sprout method
-* Clear separation between the old code and the new one.
-* The affected variables can be identified.
-* The new method includes tests.</p></div>
-<div class="paragraph"><p>== Disadvantages of the sprout method
-* You can leave the original method in a weird state (invocations to external functions).
-* You can leave the code in limbo (The new method may not be associated with the responsibility of the original code)</p></div>
-<div class="paragraph"><p>== Sprout class</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">std::string QuarterlyReportGenerator::generate() {
+<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)</p></li><li><p>Determine what local variables you need from the source method and make them arguments for the call.</p></li><li><p>Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.</p></li><li><p>Develop the sprout method of using TDD.</p></li><li><p>Uncomment the source method to enable the call.</p></li></ol></div></aside></section>
+<section id="_advantages_of_the_sprout_method"><h2>Advantages of the sprout method</h2><div class="ulist"><ul><li><p>Clear separation between the old code and the new one.</p></li><li><p>The affected variables can be identified.</p></li><li><p>The new method includes tests.</p></li></ul></div></section>
+<section id="_disadvantages_of_the_sprout_method"><h2>Disadvantages of the sprout method</h2><div class="ulist"><ul><li><p>You can leave the original method in a weird state (invocations to external functions).</p></li><li><p>You can leave the code in limbo (The new method may not be associated with the responsibility of the original code)</p></li></ul></div></section>
+<section id="_sprout_class"><h2>Sprout class</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">std::string QuarterlyReportGenerator::generate() {
   std::vector&lt;Result&gt; results = database.queryResults(
   beginDate, endDate);
   std::string pageText;
@@ -228,12 +149,10 @@ transactionBundle.getListManager (). add (entriesToAdd);
   pageText += "&lt;/body&gt;";
   pageText += "&lt;/html&gt;";
   return pageText;
-}</code></pre>
-<div class="paragraph"><p>== Add feature</p></div>
-<div class="paragraph"><p>Add a header to the type list</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="html language-html">&lt;tr&gt;&lt;td&gt;Department&lt;/td&gt;&lt;td&gt;Manager&lt;/td&gt;&lt;td&gt;Profit&lt;/td&gt;&lt;td&gt;Expenses&lt;/td&gt;&lt;/tr&gt;</code></pre>
-<div class="paragraph"><p>== Extracting logic to class</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">using namespace std;
+}</code></pre></section>
+<section id="_add_feature"><h2>Add feature</h2><div class="paragraph"><p>Add a header to the type list</p></div>
+<pre class="highlight listingblock"><code data-noescape="" class="html language-html">&lt;tr&gt;&lt;td&gt;Department&lt;/td&gt;&lt;td&gt;Manager&lt;/td&gt;&lt;td&gt;Profit&lt;/td&gt;&lt;td&gt;Expenses&lt;/td&gt;&lt;/tr&gt;</code></pre></section>
+<section id="_extracting_logic_to_class"><h2>Extracting logic to class</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">using namespace std;
 class QuarterlyReportTableHeaderProducer{
   public:
     string makeHeader();
@@ -242,23 +161,20 @@ class QuarterlyReportTableHeaderProducer{
 string QuarterlyReportTableProducer::makeHeader(){
   return "&lt;tr&gt;&lt;td&gt;Department&lt;/td&gt;&lt;td&gt;Manager&lt;/td&gt;"
   "&lt;td&gt;Profit&lt;/td&gt;&lt;td&gt;Expenses&lt;/td&gt;";
-}</code></pre>
-<div class="paragraph"><p>== We add invocation to the original method</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">QuarterlyReportGenerator::generate():
+}</code></pre></section>
+<section id="_we_add_invocation_to_the_original_method"><h2>We add invocation to the original method</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">QuarterlyReportGenerator::generate():
 //...
 QuarterlyReportTableHeaderProducer producer;
 pageText += producer.makeHeader();
-//...</code></pre>
-<div class="paragraph"><p>== Are you serious? A method for this</p></div>
-<div class="paragraph"><p>== Yes</p></div>
-<div class="paragraph"><p>== Allow additional refactoring</p></div>
-<div class="paragraph"><p>== An interface</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">class QuarterlyReportTableHeaderGenerator{
+//...</code></pre></section>
+<section id="_are_you_serious_a_method_for_this"><h2>Are you serious? A method for this</h2></section>
+<section id="_yes"><h2>Yes</h2></section>
+<section id="_allow_additional_refactoring"><h2>Allow additional refactoring</h2></section>
+<section id="_an_interface"><h2>An interface</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">class QuarterlyReportTableHeaderGenerator{
   public:
   string generate();
-};</code></pre>
-<div class="paragraph"><p>== Differentities implementations</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">class HTMLGenerator{
+};</code></pre></section>
+<section id="_different_implementations"><h2>Different implementations</h2><pre class="highlight listingblock"><code data-noescape="" class="cpp language-cpp">class HTMLGenerator{
   public:
     virtual ~HTMLGenerator() = 0;
     virtual string generate() = 0;
@@ -275,9 +191,8 @@ class QuarterlyReportGenerator : public HTMLGenerator {
   //...
     virtual string generate();
   //...
-};</code></pre>
-<div class="paragraph"><p>== Another example, filtering lists</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerProdFin
+};</code></pre></section>
+<section id="_another_example_filtering_lists"><h2>Another example, filtering lists</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerProdFin
 {
     Public Sub BuscarAltas(ByVal fechadesde As Date, ByVal fechahasta As Date, ByVal solovigentes As Boolean)
     {
@@ -290,9 +205,8 @@ class QuarterlyReportGenerator : public HTMLGenerator {
         OrElse apo.apoFechaVencimiento.Value.CompareTo(fechahasta) &gt; 0) Select apo
         '...
     }
-}</code></pre>
-<div class="paragraph"><p>== New version</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerProdFin
+}</code></pre></section>
+<section id="_new_version"><h2>New version</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerProdFin
 {
     Public Sub BuscarAltas(ByVal fechadesde As Date, ByVal fechahasta As Date, ByVal solovigentes As Boolean)
     {
@@ -301,9 +215,8 @@ class QuarterlyReportGenerator : public HTMLGenerator {
         listatitularesaltas = AuxManager.titularesvinculados(obj, ListaTitulares)
     '...
     }
-}</code></pre>
-<div class="paragraph"><p>== The wrap class</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerAuxiliar
+}</code></pre></section>
+<section id="_the_sprout_class"><h2>The Sprout class</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Public Class ManagerAuxiliar
     Public Sub New()
     End Sub
     Public Function titularesvinculados(ByVal ObjCustomer As Customer_Account,
@@ -316,9 +229,8 @@ class QuarterlyReportGenerator : public HTMLGenerator {
         Next
         Return archivofiltrado
     End Function
-End Class</code></pre>
-<div class="paragraph"><p>== And the test</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Imports NUnit.Framework
+End Class</code></pre></section>
+<section id="_and_the_test"><h2>And, the test</h2><pre class="highlight listingblock"><code data-noescape="" class="vb language-vb">Imports NUnit.Framework
 
 &lt;TestFixture()&gt;
 Public Class ManagerAuxiliarUnitTest
@@ -336,16 +248,12 @@ Public Class ManagerAuxiliarUnitTest
 
         Assert.That(result, Has.Count().EqualTo(1))
     End Sub
-End Class</code></pre>
-<div class="paragraph"><p>== Implementing the sprout class</p></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>Can it be grouped in a method? Think of a class name and invoke the method. Comment on the invocation.</p></li><li><p>Variables and arguments.</p></li><li><p>Return values.</p></li><li><p>Develop the sprout class using TDD.</p></li><li><p>Uncomment and invoke.</p></li></ol></div></div></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of statements in one place in a method, think of a good name for a class that could do that job. Then write the code that would create an object of that class in that place and call a method that does the work you need to do; Then comment on those lines.</p></li><li><p>Determine what local variables you need from the source method and make them arguments to the constructor of the classes.</p></li><li><p>Determine if the sprouted class should return the values to the source method. If so, provide a method in the class that will provide those values, and add a call in the source method to receive those values.</p></li><li><p>Develop the sprout class test first (see test-driven development)</p></li><li><p>Uncomment the source method to enable object creation and calls.</p></li></ol></div>
-<div class="exampleblock"><div class="content"><div class="paragraph"><p>== Advantages of the sprout class
-* Allows you to advance in development with more confidence than if you make invasive changes.</p></div>
-<div class="paragraph"><p>== Disadvantages of the sprout class
-* Conceptual complexity.</p></div>
-<div class="paragraph"><p>== Wrap Method</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee{
+End Class</code></pre></section>
+<section id="_implementing_the_sprout_class"><h2>Implementing the sprout class</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>Can it be grouped in a method? Think of a class name and invoke the method. Comment on the invocation.</p></li><li><p>Variables and arguments.</p></li><li><p>Return values.</p></li><li><p>Develop the sprout class using TDD.</p></li><li><p>Uncomment and invoke.</p></li></ol></div>
+<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>Identify where you need to change your code.</p></li><li><p>If the change can be formulated as a single sequence of statements in one place in a method, think of a good name for a class that could do that job. Then write the code that would create an object of that class in that place and call a method that does the work you need to do; Then comment on those lines.</p></li><li><p>Determine what local variables you need from the source method and make them arguments to the constructor of the classes.</p></li><li><p>Determine if the sprouted class should return the values to the source method. If so, provide a method in the class that will provide those values, and add a call in the source method to receive those values.</p></li><li><p>Develop the sprout class test first (see test-driven development)</p></li><li><p>Uncomment the source method to enable object creation and calls.</p></li></ol></div></aside></section>
+<section id="_advantages_of_the_sprout_class"><h2>Advantages of the sprout class</h2><div class="ulist"><ul><li><p>Allows you to advance in development with more confidence than if you make invasive changes.</p></li></ul></div></section>
+<section id="_disadvantages_of_the_sprout_class"><h2>Disadvantages of the sprout class</h2><div class="ulist"><ul><li><p>Conceptual complexity.</p></li></ul></div></section>
+<section id="_wrap_method"><h2>Wrap Method</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee{
 //...
   public void pay() {
     Money amount = new Money();
@@ -357,11 +265,9 @@ End Class</code></pre>
     }
     payDispatcher.pay(this, date, amount);
   }
-}</code></pre>
-<div class="paragraph"><p>== Add feature</p></div>
-<div class="paragraph"><p>Update a file every time a payment is run to employees</p></div>
-<div class="paragraph"><p>== We can add the functionality at the end of the method, but what if &#8230;&#8203;</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee {
+}</code></pre></section>
+<section id="_add_feature_2"><h2>Add feature</h2><div class="paragraph"><p>Update a file every time a payment is run to employees</p></div></section>
+<section id="_we_can_add_the_functionality_at_the_end_of_the_method_but_what_if"><h2>We can add the functionality at the end of the method, but what if &#8230;&#8203;</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee {
   private void dispatchPayment() { <i class="conum" data-value="1"></i><b>(1)</b>
     Money amount = new Money();
     for (Iterator it = timecards.iterator(); it.hasNext(); ) {
@@ -379,10 +285,9 @@ End Class</code></pre>
   private void logPayment() {
     //...
   }
-}</code></pre></div></div>
-<div class="olist arabic"><ol class="arabic"><li><p>We rename the original method and make it private</p></li><li><p>We create a method that keeps the original signature and takes care of calling the original method and the new functionality</p></li></ol></div>
-<div class="exampleblock"><div class="content"><div class="paragraph"><p>== Another alternative is to keep both functionalities</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee {
+}</code></pre>
+<aside class="notes"><div class="olist arabic"><ol class="arabic"><li><p>We rename the original method and make it private</p></li><li><p>We create a method that keeps the original signature and takes care of calling the original method and the new functionality</p></li></ol></div></aside></section>
+<section id="_another_alternative_is_to_keep_both_functionalities"><h2>Another alternative is to keep both functionalities</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">public class Employee {
   public void makeLoggedPayment() {
     logPayment();
     pay();
@@ -393,19 +298,13 @@ End Class</code></pre>
   private void logPayment() {
   //...
   }
-}</code></pre>
-<div class="paragraph"><p>== Implementing the wrap method (Option 1)</p></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify the method you need to change.</p></li><li><p>If the change is to be made as a separate method, rename the method and create a new method with the same name and signature as the previous method.</p><div class="ulist"><ul><li><p>It is important to keep the signature **.</p></li></ul></div></li><li><p>Invoke the old method from the new method.</p></li><li><p>Develop the new functionality using tests, then call from within the new method.</p></li></ol></div>
-<div class="paragraph"><p>== Implementing the wrap method (Option 2)</p></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify the method you need to change.</p></li><li><p>If the change can be formulated as a single sequence of statements in one place, develop a new method using tests.</p></li><li><p>Create another method that calls the new method and the old method.</p></li></ol></div>
-<div class="paragraph"><p>== Advantages of the wrap method
-* Unlike the sprout methods, the original methods do not change. With the sprout technique, at least one line is added.
-* The new functionality is independent of the existing functionality.</p></div>
-<div class="paragraph"><p>== Disadvantages of the wrap method</p></div>
-<div class="ulist"><ul><li><p>Difficulty in naming the new methods.</p></li></ul></div>
-<div class="quoteblock"><blockquote><div class="paragraph"><p>There are only two hard things in Computer Science: cache invalidation and naming things. - Phil Karlton.</p></div></blockquote></div>
-<div class="paragraph"><p>== Wrap Class / Decorator pattern</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="java language-java">class LoggingEmployee extends Employee {
+}</code></pre></section>
+<section id="_implementing_the_wrap_method_option_1"><h2>Implementing the wrap method (Option 1)</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify the method you need to change.</p></li><li><p>If the change is to be made as a separate method, rename the method and create a new method with the same name and signature as the previous method.</p><div class="ulist"><ul><li><p>It is important to keep the signature **.</p></li></ul></div></li><li><p>Invoke the old method from the new method.</p></li><li><p>Develop the new functionality using tests, then call from within the new method.</p></li></ol></div></section>
+<section id="_implementing_the_wrap_method_option_2"><h2>Implementing the wrap method (Option 2)</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify the method you need to change.</p></li><li><p>If the change can be formulated as a single sequence of statements in one place, develop a new method using tests.</p></li><li><p>Create another method that calls the new method and the old method.</p></li></ol></div></section>
+<section id="_advantages_of_the_wrap_method"><h2>Advantages of the wrap method</h2><div class="ulist"><ul><li><p>Unlike the sprout methods, the original methods do not change. With the sprout technique, at least one line is added.</p></li><li><p>The new functionality is independent of the existing functionality.</p></li></ul></div></section>
+<section id="_disadvantages_of_the_wrap_method"><h2>Disadvantages of the wrap method</h2><div class="ulist"><ul><li><p>Difficulty in naming the new methods.</p></li></ul></div>
+<div class="quoteblock"><blockquote><div class="paragraph"><p>There are only two hard things in Computer Science: cache invalidation and naming things. - Phil Karlton.</p></div></blockquote></div></section>
+<section id="_wrap_class_decorator_pattern"><h2>Wrap Class / Decorator pattern</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">class LoggingEmployee extends Employee {
   public LoggingEmployee(Employee e) {
     employee = e;
   }
@@ -420,9 +319,8 @@ End Class</code></pre>
 }</code></pre>
 <aside class="notes"><p>===
 This technique uses the decorator pattern. We create objects of a class that wrap another class and pass them. The class you are wrapping must have the same interface as the class you are wrapping so that clients don&#8217;t know they are working with a wrapper. In the example, <code>LoggingEmployee</code> is a decorator for` Employee`. You must have a <code>pay ()</code> method and any other clerk methods that the client uses.
-===</p></aside>
-<div class="paragraph"><p>== Wrap Class / Without decorator pattern</p></div>
-<pre class="highlight listingblock"><code data-noescape="" class="java language-java">class LoggingPayDispatcher {
+===</p></aside></section>
+<section id="_wrap_class_without_decorator_pattern"><h2>Wrap Class / Without decorator pattern</h2><pre class="highlight listingblock"><code data-noescape="" class="java language-java">class LoggingPayDispatcher {
   private Employee e;
   public LoggingPayDispatcher(Employee e) {
     this.e = e;
@@ -439,22 +337,16 @@ This technique uses the decorator pattern. We create objects of a class that wra
 <aside class="notes"><p>===
 The key to the Wrap Class is that new behavior can be added to a system without adding it to an existing class. When there are many calls to the code that you want to wrap, it is often worth moving to a wrapper that uses the decorator pattern.
 When you use the decorator pattern, a new behavior can be transparently added to an existing call set, such as <code>pay()</code>, all at the same time.
-===</p></aside>
-<div class="paragraph"><p>== Implementing the Wrap Class (Option 1) 1/2</p></div>
-<div class="olist arabic"><ol class="arabic"><li><p>Identify a method where you need to make a change.</p></li><li><p>If the change as a separate method, create a class that accepts the class to be modified as a constructor argument.</p></li><li><p>Create a method in that class, using tests, and implement the new functionality. Write another method that calls the new method and the old method in the Wrap class.</p></li><li><p>Create an instance of the Wrap class in the place where the new functionality needs to be enabled.</p></li></ol></div>
-<div class="paragraph"><p>== Tips for using the Wrap Class</p></div>
-<div class="olist arabic"><ol class="arabic"><li><p>The behavior I want to add is completely independent, and I don&#8217;t want to <strong> pollute </strong> the existing class with low-level or unrelated behavior.</p></li><li><p>The class has grown so much that I really can&#8217;t bear to make it worse. In a case like this, the wrap is created only as a base for later changes.</p></li></ol></div>
-<div class="paragraph"><p>== Are there more techniques?</p></div>
-<div class="paragraph"><p>== Yes</p></div>
-<div class="paragraph"><p>== Conclusiones</p></div>
-<div class="ulist"><ul><li><p>Working with legacy code is difficult</p></li><li><p>Tests are necessary</p></li><li><p>When the disease cannot be prevented, it has to be treated</p></li><li><p>The application of these techniques depends on the context</p></li><li><p>The idea of these techniques is to support them with unit tests, without applying test only add more legacy code</p></li></ul></div>
-<div class="paragraph"><p>== !</p></div>
-<div class="ulist"><ul><li><p>Sources:</p><div class="ulist"><ul><li><p>Working Effectively with Legacy Code, 1st. Michael Feathers (2004)</p></li><li><p><a href="http://xurxodev.com/trabajando-con-codigo-legado/" class="bare">http://xurxodev.com/trabajando-con-codigo-legado/</a></p></li><li><p><a href="http://xurxodev.com/trabajando-con-codigo-legado-sprout-method-y-sprout-class/" class="bare">http://xurxodev.com/trabajando-con-codigo-legado-sprout-method-y-sprout-class/</a></p></li><li><p><a href="https://www.yegor256.com/2016/01/26/defensive-programming.html" class="bare">https://www.yegor256.com/2016/01/26/defensive-programming.html</a></p></li></ul></div></li></ul></div>
-<div class="paragraph"><p>== Juan Moreno</p></div>
-<div class="paragraph"><p>I help developers to deliver good quality software following the best practices and applying clean code principles - Christian - Husband</p></div>
-<div class="ulist"><ul><li><p>Blog: <a href="https://proitcsolution.com.ve" class="bare">https://proitcsolution.com.ve</a></p></li><li><p>Twitter: <a href="https://twitter.com/JuanMorenoDev">@JuanMorenoDev</a></p></li><li><p>Presentation link: <a href="https://bit.ly/embu-refactoring" class="bare">https://bit.ly/embu-refactoring</a></p></li></ul></div></div></div>
-<div class="paragraph"><p>To generate pdf include the following at the end of the presentation: ?showNotes=separate-page&amp;print-pdf</p></div>
-<div class="exampleblock"><div class="content"></div></div></section></div></div><script src="reveal.js-3.7.0/lib/js/head.min.js"></script><script src="reveal.js-3.7.0/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+===</p></aside></section>
+<section id="_implementing_the_wrap_class_option_1_12"><h2>Implementing the Wrap Class (Option 1) 1/2</h2><div class="olist arabic"><ol class="arabic"><li><p>Identify a method where you need to make a change.</p></li><li><p>If the change as a separate method, create a class that accepts the class to be modified as a constructor argument.</p></li><li><p>Create a method in that class, using tests, and implement the new functionality. Write another method that calls the new method and the old method in the Wrap class.</p></li><li><p>Create an instance of the Wrap class in the place where the new functionality needs to be enabled.</p></li></ol></div></section>
+<section id="_tips_for_using_the_wrap_class"><h2>Tips for using the Wrap Class</h2><div class="olist arabic"><ol class="arabic"><li><p>The behavior I want to add is completely independent, and I don&#8217;t want to <strong> pollute </strong> the existing class with low-level or unrelated behavior.</p></li><li><p>The class has grown so much that I really can&#8217;t bear to make it worse. In a case like this, the wrap is created only as a base for later changes.</p></li></ol></div></section>
+<section id="_are_there_more_techniques"><h2>Are there more techniques?</h2></section>
+<section id="_yes_2"><h2>Yes</h2></section>
+<section id="_conclusions"><h2>Conclusions</h2><div class="ulist"><ul><li><p>Working with legacy code is difficult</p></li><li><p>Tests are necessary</p></li><li><p>When the disease cannot be prevented, it has to be treated</p></li><li><p>The application of these techniques depends on the context</p></li><li><p>The idea of these techniques is to support them with unit tests, without applying test only add more legacy code</p></li></ul></div></section>
+<section><div class="ulist"><ul><li><p>Sources:</p><div class="ulist"><ul><li><p>Working Effectively with Legacy Code, 1st. Michael Feathers (2004)</p></li><li><p><a href="http://xurxodev.com/trabajando-con-codigo-legado/" class="bare">http://xurxodev.com/trabajando-con-codigo-legado/</a></p></li><li><p><a href="http://xurxodev.com/trabajando-con-codigo-legado-sprout-method-y-sprout-class/" class="bare">http://xurxodev.com/trabajando-con-codigo-legado-sprout-method-y-sprout-class/</a></p></li><li><p><a href="https://www.yegor256.com/2016/01/26/defensive-programming.html" class="bare">https://www.yegor256.com/2016/01/26/defensive-programming.html</a></p></li></ul></div></li></ul></div></section>
+<section id="_juan_moreno"><h2>Juan Moreno</h2><div class="paragraph"><p>I help developers to deliver good quality software following the best practices and applying clean code principles - Christian - Husband</p></div>
+<div class="ulist"><ul><li><p>Blog: <a href="https://proitcsolution.com.ve" class="bare">https://proitcsolution.com.ve</a></p></li><li><p>Twitter: <a href="https://twitter.com/JuanMorenoDev">@JuanMorenoDev</a></p></li><li><p>Presentation link: <a href="https://bit.ly/embu-refactoring" class="bare">https://bit.ly/embu-refactoring</a></p></li></ul></div>
+<aside class="notes"><div class="paragraph"><p>To generate pdf include the following at the end of the presentation: ?showNotes=separate-page&amp;print-pdf</p></div></aside></section></div></div><script src="reveal.js-3.7.0/lib/js/head.min.js"></script><script src="reveal.js-3.7.0/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;

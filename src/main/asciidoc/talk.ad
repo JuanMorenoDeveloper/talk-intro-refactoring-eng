@@ -52,7 +52,7 @@ image::good-intentions2.jpg[background, size=auto]
 
 image::legacy-code.jpeg[background, size=auto]
 
-== ¿Qué es código legacy? icon:lightbulb[]
+== What is legacy code? icon:lightbulb[]
 
 * "Others" code?
 * Code difficult to understand?
@@ -272,100 +272,6 @@ public class TransactionGate{
 6. Uncomment the source method to enable the call.
 ====
 
-== Sprout method
-
-java
-// Original code
-public class TransactionGate {
-public void postEntries (List entries) {
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-entry.postDate ();
-}
-transactionBundle.getListManager (). add (entries);
-}
-// ...
-}
-`` ''
-
-== Add feature
-
-Verify new entries are not previously in `transactionBundle`
-
-== Can be implemented "easily" with
-
-java
-public class TransactionGate {
-public void postEntries (List entries) {
-List entriesToAdd = new LinkedList ();
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-if (! transactionBundle.getListManager (). hasEntry (entry) {
-entry.postDate ();
-entriesToAdd.add (entry);
-}
-}
-transactionBundle.getListManager (). add (entriesToAdd);
-}
-// ...
-}
-`` ''
-
-== But we fall back into the legacy code loop. Let's now try the Sprout method.
-
-== Extracting logic to the method
-java
-public class TransactionGate {
-// ...
-List uniqueEntries (List entries) {
-List result = new ArrayList ();
-for (Iterator it = entries.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-if (! transactionBundle.getListManager (). hasEntry (entry) {
-result.add (entry);
-}
-}
-return result;
-}
-// ...
-}
-`` ''
-
-== Built-in functionality
-
-java
-public class TransactionGate {
-// ...
-public void postEntries (List entries) {
-List entriesToAdd = uniqueEntries (entries);
-for (Iterator it = entriesToAdd.iterator (); it.hasNext ();) {
-Entry entry = (Entry) it.next ();
-entry.postDate ();
-}
-transactionBundle.getListManager (). add (entriesToAdd);
-}
-// ...
-}
-`` ''
-
-== Implementing the sprout method
-1. Identify
-2. Add the reference in the code
-3. Inputs and outputs as arguments
-4. Identify return values
-5. Implementation of the method via TDD
-6. Delete comment and enable the call.
-
-[NOTE.speaker]
-====
-1. Identify where you need to change your code.
-2. If the change can be formulated as a single sequence of declarations in one place in a method, write a call for a new method that will do the work involved, and then comment it out. (Do this even before writing the method so you can get an idea of what the method call will look like in context.)
-3. Determine what local variables you need from the source method and make them arguments for the call.
-4. Determine if the sprout method should return the values to the source method. If so, change the call so that its return value is assigned to a variable.
-5. Develop the sprout method of using TDD.
-6. Uncomment the source method to enable the call.
-====
-
 == Advantages of the sprout method
 * Clear separation between the old code and the new one.
 * The affected variables can be identified.
@@ -454,7 +360,7 @@ class QuarterlyReportTableHeaderGenerator{
 };
 ```
 
-== Differentities implementations
+== Different implementations
 
 ```cpp
 class HTMLGenerator{
@@ -511,7 +417,7 @@ Public Class ManagerProdFin
 }
 ```
 
-== The wrap class
+== The Sprout class
 
 ```vb
 Public Class ManagerAuxiliar
@@ -530,7 +436,7 @@ Public Class ManagerAuxiliar
 End Class
 ```
 
-== And the test
+== And, the test
 
 ```vb
 Imports NUnit.Framework
@@ -736,7 +642,7 @@ When you use the decorator pattern, a new behavior can be transparently added to
 
 == Yes
 
-== Conclusiones
+== Conclusions
 
 * Working with legacy code is difficult
 * Tests are necessary
